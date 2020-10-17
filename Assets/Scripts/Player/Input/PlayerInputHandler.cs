@@ -9,6 +9,8 @@ public class PlayerInputHandler : MonoBehaviour
     // private Rigidbody _rigidbody;
     private Vector2 _movement;
     private static readonly int X = Animator.StringToHash("x");
+    private const int IdleLayer = 0;
+    private const int WalkLayer = 1;
 
     private void Start()
     {
@@ -24,14 +26,22 @@ public class PlayerInputHandler : MonoBehaviour
     
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        Vector2 movementInput = speed * context.ReadValue<Vector2>();
+        Vector2 movementInput = context.ReadValue<Vector2>();
         _movement = new Vector2(movementInput.x, movementInput.y);
-        _movement *= Time.deltaTime;
-        AnimateMovment(movementInput);
+        _movement = _movement.normalized * Time.deltaTime * speed;
+        if (movementInput.x != 0 || movementInput.y != 0)
+        {
+            AnimateMovment(movementInput);    
+        }
+        else
+        {
+            _animator.SetLayerWeight(WalkLayer, 0);
+        }
     }
     
     private void AnimateMovment(Vector2 direction) 
     {
+        _animator.SetLayerWeight(WalkLayer, 1);
         _animator.SetFloat(X, direction.x);
     }
 }
