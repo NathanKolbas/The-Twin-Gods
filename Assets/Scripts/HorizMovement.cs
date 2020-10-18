@@ -17,10 +17,10 @@ public class HorizMovement : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-
-       transform.position = new Vector3(Mathf.PingPong(Time.time * speed, max - min) + min, transform.position.y, transform.position.z); 
-    
+    void Update ()
+    {
+        var position = transform.position;
+        transform.position = new Vector3(Mathf.PingPong(Time.time * speed, max - min) + min, position.y, position.z);
     }
        
 }

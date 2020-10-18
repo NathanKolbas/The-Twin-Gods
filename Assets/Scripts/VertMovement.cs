@@ -17,10 +17,10 @@ public class VertMovement : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-
-       transform.position = new Vector3(transform.position.x, Mathf.PingPong(Time.time * speed, max - min) + min, transform.position.z); 
-    
+    void Update ()
+    {
+        var position = transform.position;
+        transform.position = new Vector3(position.x, Mathf.PingPong(Time.time * speed, max - min) + min, position.z);
     }
        
 }

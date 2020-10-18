@@ -16,10 +16,12 @@ public class EnemyPatrol : MonoBehaviour
     private bool notAtEdge;
     public Transform edgeCheck;
 
+    private Rigidbody2D _rigidbody2D;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -36,13 +38,11 @@ public class EnemyPatrol : MonoBehaviour
 
         if (moveRight) {
             transform.localScale = new Vector3(-1f, 1f, 1f);
-            GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
+            _rigidbody2D.velocity = new Vector2(moveSpeed, _rigidbody2D.velocity.y);
         }
         else{
             transform.localScale = new Vector3(1f, 1f, 1f);
-            GetComponent<Rigidbody2D>().velocity = new Vector2(-moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
-     }
-
-
+            _rigidbody2D.velocity = new Vector2(-moveSpeed, _rigidbody2D.velocity.y);
+        }
     }
 }
