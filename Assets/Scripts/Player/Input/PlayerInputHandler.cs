@@ -28,7 +28,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         Vector2 movementInput = context.ReadValue<Vector2>();
         _movement = new Vector2(movementInput.x, movementInput.y);
-        _movement = _movement.normalized * Time.deltaTime * speed;
+        _movement = _movement.normalized * (speed / 100);
         if (movementInput.x != 0 || movementInput.y != 0)
         {
             AnimateMovment(movementInput);    
