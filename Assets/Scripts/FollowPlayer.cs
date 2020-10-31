@@ -8,6 +8,9 @@ public class FollowPlayer : MonoBehaviour
     public float moveSpeed;
     private Rigidbody2D rb;
     private Vector2 movement;
+    private bool inRange;
+    public float range;
+    private float distance;
 
     void Start(){
         rb = this.GetComponent<Rigidbody2D>();
@@ -19,10 +22,22 @@ public class FollowPlayer : MonoBehaviour
         rb.rotation = angle;
         direction.Normalize();
         movement = direction;
+
+        Vector3 distanceVector = player.position - transform.position;
+        distance = Mathf.Sqrt(Mathf.Pow(distanceVector.x, 2) + Mathf.Pow(distanceVector.y, 2));
+        Debug.Log(distance);
+
+        if (distance <= range) {
+            inRange = true;
+        }
+        
     }
 
     private void FixedUpdate(){
-        moveCharacter(movement);
+        
+        if (inRange){
+            moveCharacter(movement);
+        }
     }
 
     void moveCharacter(Vector2 direction){
