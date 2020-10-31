@@ -11,6 +11,8 @@ public class FollowPlayer : MonoBehaviour
     private bool inRange;
     public float range;
     private float distance;
+    public float attackRange;
+    private bool inAttackRange;
 
     void Start(){
         rb = this.GetComponent<Rigidbody2D>();
@@ -19,23 +21,26 @@ public class FollowPlayer : MonoBehaviour
     void Update(){
         Vector3 direction = player.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
         direction.Normalize();
         movement = direction;
+        Debug.Log(angle);
 
         Vector3 distanceVector = player.position - transform.position;
         distance = Mathf.Sqrt(Mathf.Pow(distanceVector.x, 2) + Mathf.Pow(distanceVector.y, 2));
-        Debug.Log(distance);
 
-        if (distance <= range) {
+        if (distance <= range && distance > attackRange) {
             inRange = true;
         }
+
+        if (distance <= attackRange) {
+            inAttackRange = true;
+        }
+
         
     }
 
-    private void FixedUpdate(){
-        
-        if (inRange){
+    private void FixedUpdate(){        
+        if (inRange) {
             moveCharacter(movement);
         }
     }
