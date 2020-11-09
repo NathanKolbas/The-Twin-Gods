@@ -13,15 +13,21 @@ public class FollowPlayer : MonoBehaviour
     private float distance;
     public float attackRange;
     private bool inAttackRange;
+    private Animator animator;
+    private const int walkLayer = 1;
+    private SpriteRenderer spriteRenderer;
 
     void Start(){
         rb = this.GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update(){
         Vector3 direction = player.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         direction.Normalize();
+        Debug.Log(direction);
         movement = direction;
         Debug.Log(angle);
 
@@ -36,12 +42,20 @@ public class FollowPlayer : MonoBehaviour
             inAttackRange = true;
         }
 
+        if (direction.x < 0) {
+            spriteRenderer.flipX = true;
+        }
+        else {
+            spriteRenderer.flipX = false;
+        }
+
         
     }
 
     private void FixedUpdate(){        
         if (inRange) {
             moveCharacter(movement);
+            animator.SetLayerWeight(walkLayer, 1);
         }
     }
 
