@@ -40,7 +40,7 @@ public class PlayerInputHandler : MonoBehaviour
         _movement = _movement.normalized * (speed / 100);
         if (movementInput.x != 0 || movementInput.y != 0)
         {
-            AnimateMovment(movementInput);    
+            _animator.SetLayerWeight(WalkLayer, 1);   
         }
         else
         {
@@ -56,18 +56,13 @@ public class PlayerInputHandler : MonoBehaviour
             _spriteRenderer.flipX = true;
         }
     }
-    
-    private void AnimateMovment(Vector2 direction) 
-    {
-        _animator.SetLayerWeight(WalkLayer, 1);
-        _animator.SetFloat(X, direction.x);
-    }
-    
+
     public void AttackingHandler(InputAction.CallbackContext context)
     {
+        if (_isAttacking) return;
         _isAttacking = true;
         playerAttacking.Punch(_spriteRenderer.flipX);
-        var attackLength = _animator.runtimeAnimatorController.animationClips[AttackStab].length;
+        var attackLength = _animator.GetCurrentAnimatorStateInfo(AttackStab).length;
         StartCoroutine(_animateStabAttack(attackLength));
     }
     
