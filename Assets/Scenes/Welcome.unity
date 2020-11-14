@@ -664,7 +664,7 @@ MonoBehaviour:
     Keyboard: Use WASD to move. H
     to attack.
 
-    Controller: Left stick to move. A/X button to attack.'
+    Controller: Left stick or D-pad to move. A/X button to attack.'
 --- !u!222 &1024571125
 CanvasRenderer:
   m_ObjectHideFlags: 0

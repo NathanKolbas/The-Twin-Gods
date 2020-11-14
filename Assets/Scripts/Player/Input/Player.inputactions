@@ -35,6 +35,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "ae58bc50-3d96-41c3-b294-88719a08c05f",
+                    "path": "<Gamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "WASD",
                     "id": "2e6515f1-8262-4b73-98b0-ed17aad26f41",
                     "path": "2DVector",
