@@ -28,6 +28,11 @@ public class PlayerInputHandler : MonoBehaviour
         if (_isAttacking) return;
         
         transform.Translate(_movement);
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, -4.5f, 45.5f), 
+            Mathf.Clamp(transform.position.y, -3.25f, 2.5f), 
+            transform.position.z
+        );
             
         if (_movement.x != 0 || _movement.y != 0)
         {
