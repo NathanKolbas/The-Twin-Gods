@@ -15,7 +15,9 @@ public class FollowPlayer : MonoBehaviour
     private bool inAttackRange;
     private Animator animator;
     private const int walkLayer = 1;
+    private const int spearLayer = 2;
     private SpriteRenderer spriteRenderer;
+    private Vector3 target;
 
     void Start(){
         rb = this.GetComponent<Rigidbody2D>();
@@ -25,23 +27,33 @@ public class FollowPlayer : MonoBehaviour
 
     void Update(){
         Vector3 direction = player.position - transform.position;
+        if (direction.x < 0) {
+            target.Set(player.position.x + 0.5f, player.position.y, player.position.z);
+        }
+        else {
+            target.Set(player.position.x - 0.5f, player.position.y, player.position.z);
+        }
+        
+        direction = target - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         direction.Normalize();
-        Debug.Log(direction);
         movement = direction;
-        Debug.Log(angle);
 
-        Vector3 distanceVector = player.position - transform.position;
+        Vector3 distanceVector = target - transform.position;
         distance = Mathf.Sqrt(Mathf.Pow(distanceVector.x, 2) + Mathf.Pow(distanceVector.y, 2));
 
-        if (distance <= range && distance > attackRange) {
+        if (distance <= range) {
             inRange = true;
         }
 
         if (distance <= attackRange) {
             inAttackRange = true;
         }
+        else {
+            inAttackRange = false;
+        }
 
+        direction = player.position - transform.position;
         if (direction.x < 0) {
             spriteRenderer.flipX = true;
         }
@@ -53,9 +65,15 @@ public class FollowPlayer : MonoBehaviour
     }
 
     private void FixedUpdate(){        
-        if (inRange) {
+        if (inRange && distance >= 0.5f) {
             moveCharacter(movement);
             animator.SetLayerWeight(walkLayer, 1);
+        }
+        if (inAttackRange) {
+            animator.SetLayerWeight(spearLayer, 1);
+        }
+        else {
+            animator.SetLayerWeight(spearLayer, 0);
         }
     }
 

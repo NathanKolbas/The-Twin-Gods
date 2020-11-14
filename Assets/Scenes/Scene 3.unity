@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8155edc2cc50886408ba2c43ca64fe38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 10.8
 --- !u!114 &718626571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,7 +477,7 @@ MonoBehaviour:
   player: {fileID: 718626572}
   moveSpeed: 3
   range: 5
-  attackRange: 0
+  attackRange: 1
 --- !u!50 &2083292124
 Rigidbody2D:
   serializedVersion: 4
