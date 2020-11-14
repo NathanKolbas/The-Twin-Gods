@@ -25,7 +25,6 @@ public class PlayerInputHandler : MonoBehaviour
     
     private void FixedUpdate()
     {
-        // _rigidbody.AddForce(_movement * speed);
         if (!_isAttacking)
         {
             transform.Translate(_movement);
@@ -38,9 +37,12 @@ public class PlayerInputHandler : MonoBehaviour
         Vector2 movementInput = context.ReadValue<Vector2>();
         _movement = new Vector2(movementInput.x, movementInput.y);
         _movement = _movement.normalized * (speed / 100);
+
+        if (_isAttacking) return;
+        
         if (movementInput.x != 0 || movementInput.y != 0)
         {
-            _animator.SetLayerWeight(WalkLayer, 1);   
+            _animator.SetLayerWeight(WalkLayer, 1);
         }
         else
         {
@@ -60,6 +62,7 @@ public class PlayerInputHandler : MonoBehaviour
     public void AttackingHandler(InputAction.CallbackContext context)
     {
         if (_isAttacking) return;
+        
         _isAttacking = true;
         playerAttacking.Punch(_spriteRenderer.flipX);
         var attackLength = _animator.GetCurrentAnimatorStateInfo(AttackStab).length;
