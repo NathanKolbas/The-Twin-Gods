@@ -8,21 +8,73 @@ public class FollowPlayer : MonoBehaviour
     public float moveSpeed;
     private Rigidbody2D rb;
     private Vector2 movement;
+    private bool inRange;
+    public float range;
+    private float distance;
+    public float attackRange;
+    private bool inAttackRange;
+    private Animator animator;
+    private const int walkLayer = 1;
+    private const int spearLayer = 2;
+    private SpriteRenderer spriteRenderer;
+    private Vector3 target;
 
     void Start(){
         rb = this.GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update(){
         Vector3 direction = player.position - transform.position;
+        if (direction.x < 0) {
+            target.Set(player.position.x + 0.5f, player.position.y, player.position.z);
+        }
+        else {
+            target.Set(player.position.x - 0.5f, player.position.y, player.position.z);
+        }
+        
+        direction = target - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
         direction.Normalize();
         movement = direction;
+
+        Vector3 distanceVector = target - transform.position;
+        distance = Mathf.Sqrt(Mathf.Pow(distanceVector.x, 2) + Mathf.Pow(distanceVector.y, 2));
+
+        if (distance <= range) {
+            inRange = true;
+        }
+
+        if (distance <= attackRange) {
+            inAttackRange = true;
+        }
+        else {
+            inAttackRange = false;
+        }
+
+        direction = player.position - transform.position;
+        if (direction.x < 0) {
+            spriteRenderer.flipX = true;
+        }
+        else {
+            spriteRenderer.flipX = false;
+        }
+
+        
     }
 
-    private void FixedUpdate(){
-        moveCharacter(movement);
+    private void FixedUpdate(){        
+        if (inRange && distance >= 0.5f) {
+            moveCharacter(movement);
+            animator.SetLayerWeight(walkLayer, 1);
+        }
+        if (inAttackRange) {
+            animator.SetLayerWeight(spearLayer, 1);
+        }
+        else {
+            animator.SetLayerWeight(spearLayer, 0);
+        }
     }
 
     void moveCharacter(Vector2 direction){
